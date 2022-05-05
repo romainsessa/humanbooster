@@ -24,7 +24,7 @@ public class ProductRepository {
 	}
 
 	public Product read(Integer id) {
-		return entityManager.getReference(Product.class, id);
+		return entityManager.find(Product.class, id);
 	}
 
 	public void update(Product product) {

@@ -3,6 +3,9 @@ package com.hb.hibernate.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +18,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
+@DynamicUpdate
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Product {
@@ -24,13 +31,17 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productId;
 
-	@Column
+	@Column(nullable = false)
+	@NotNull
 	private String name;
 
-	@Column
+	@Column(length = 10)
+	@Length(min = 1, max = 10)
 	private String description;
 
 	@Column
+	@Min(value = 1)
+	@Max(value = 100)
 	private Integer cost;
 
 	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL }, orphanRemoval = true)
