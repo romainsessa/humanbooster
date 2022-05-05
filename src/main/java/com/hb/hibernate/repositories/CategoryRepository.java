@@ -1,7 +1,10 @@
 package com.hb.hibernate.repositories;
 
+import java.util.List;
+
 import com.hb.hibernate.model.Category;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 public class CategoryRepository {
 	private EntityManager entityManager;
@@ -30,5 +33,15 @@ public class CategoryRepository {
 		entityManager.getTransaction().begin();
 		entityManager.remove(category);
 		entityManager.getTransaction().commit();
+	}
+
+	public List<Category> getCategories(int start, int size) {
+		// Pagination
+		String strQuery = "from Category";
+		Query query = entityManager.createQuery(strQuery);
+		query.setFirstResult(start);
+		query.setMaxResults(size);
+
+		return query.getResultList();
 	}
 }
