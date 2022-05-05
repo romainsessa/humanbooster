@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -92,6 +93,11 @@ public class Product {
 	public void setProductDetails(ProductDetails productDetails) {
 		this.productDetails = productDetails;
 		productDetails.setProduct(this);
+	}
+
+	public void removeProductDetails() {
+		this.productDetails.setProduct(null);
+		this.productDetails = null;
 	}
 
 }
