@@ -36,6 +36,9 @@ public class Product {
 	@OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private ProductDetails productDetails;
 
+	@ManyToMany(mappedBy = "products", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private List<Category> categories = new ArrayList<Category>();
+
 	public Integer getProductId() {
 		return productId;
 	}
@@ -98,6 +101,24 @@ public class Product {
 	public void removeProductDetails() {
 		this.productDetails.setProduct(null);
 		this.productDetails = null;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public void addCategory(Category category) {
+		this.categories.add(category);
+		category.getProducts().add(this);
+	}
+
+	public void removeCategory(Category category) {
+		this.categories.remove(category);
+		category.getProducts().remove(this);
 	}
 
 }
